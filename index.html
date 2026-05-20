@@ -94,7 +94,7 @@
         </div>
         <div>
           <h1 class="text-xl font-display font-bold text-deepBlue tracking-wide">Sound Wave Lab</h1>
-          <p class="text-[11px] text-slateDark/60 font-medium">Explore energy, waves, and hearing</p>
+          <p class="text-[11px] text-slateDark/60 font-medium">Explore energy, waves, and synthesizer science</p>
         </div>
       </div>
       
@@ -111,55 +111,152 @@
     </div>
   </header>
 
-  <!-- Main Workspace - Designed to fit nicely on Chromebook screens -->
+  <!-- Main Workspace -->
   <main class="max-w-7xl w-full mx-auto p-4 md:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow items-stretch">
     
-    <!-- LEFT PANEL: Dynamic Sound Controls & Missions (5 columns) -->
-    <div class="lg:col-span-5 flex flex-col gap-4 justify-between">
+    <!-- LEFT PANEL: Lab Mode Switcher, Dynamic Sound Controls & Missions (5 columns) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
       
-      <!-- Interactive Sliders (Placed on left to sit directly next to displays) -->
-      <div class="bg-white rounded-2xl p-5 border border-sage-100 shadow-sm flex flex-col gap-4 flex-grow justify-center">
-        <h3 class="text-base font-display font-bold text-deepBlue border-b border-sage-50 pb-2 flex items-center gap-2">
-          <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-          </svg>
-          Change the Wave Controls
-        </h3>
+      <!-- Panel Mode Switcher -->
+      <div class="bg-white rounded-2xl p-1.5 border border-sage-100 shadow-sm flex">
+        <button id="mode-explorer-btn" class="flex-1 text-center py-2 text-xs font-bold rounded-xl transition-all duration-300 bg-sage-500 text-white">
+          Explorer Mode
+        </button>
+        <button id="mode-synth-btn" class="flex-1 text-center py-2 text-xs font-bold rounded-xl transition-all duration-300 text-slateDark/60 hover:text-deepBlue">
+          Synth Lab (Advanced)
+        </button>
+      </div>
 
-        <!-- Pitch / Frequency Slider -->
-        <div class="flex flex-col gap-1.5">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-sage-600 uppercase tracking-wide">
-              Frequency (Pitch)
-            </span>
-            <span id="frequency-val-badge" class="bg-sage-50 text-sage-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-sage-100">Medium</span>
+      <!-- Interactive Sliders (Shared container, changes shape based on selected mode) -->
+      <div class="bg-white rounded-2xl p-5 border border-sage-100 shadow-sm flex flex-col gap-4 flex-grow justify-start relative">
+        
+        <!-- EXPLORER CONTROLS CONTAINER -->
+        <div id="explorer-controls-panel" class="flex flex-col gap-4 w-full">
+          <h3 class="text-base font-display font-bold text-deepBlue border-b border-sage-50 pb-2 flex items-center gap-2">
+            <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+            Wave Controls
+          </h3>
+
+          <!-- Pitch / Frequency Slider -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-extrabold text-sage-600 uppercase tracking-wide">
+                Frequency (Pitch)
+              </span>
+              <span id="frequency-val-badge" class="bg-sage-50 text-sage-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-sage-100">Medium</span>
+            </div>
+            <p class="text-[11px] text-slateDark/60 leading-tight">Controls how fast particles wiggle and how close the waves pack together.</p>
+            <input id="slider-frequency" type="range" min="100" max="1000" step="5" value="440" class="w-full h-2 rounded-lg cursor-pointer">
+            <div class="flex justify-between text-[10px] font-bold text-slateDark/40 px-1">
+              <span>Low Pitch (Deep)</span>
+              <span>High Pitch (Squeaky)</span>
+            </div>
           </div>
-          <p class="text-[11px] text-slateDark/60 leading-tight">Controls how fast particles wiggle and how close the waves pack together.</p>
-          <input id="slider-frequency" type="range" min="100" max="1000" step="5" value="440" class="w-full h-2 rounded-lg cursor-pointer">
-          <div class="flex justify-between text-[10px] font-bold text-slateDark/40 px-1">
-            <span>Low Pitch (Deep)</span>
-            <span>High Pitch (Squeaky)</span>
+
+          <!-- Volume / Amplitude Slider -->
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-extrabold text-clay-600 uppercase tracking-wide">
+                Amplitude (Volume)
+              </span>
+              <span id="amplitude-val-badge" class="bg-clay-50 text-clay-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-clay-100">Medium</span>
+            </div>
+            <p class="text-[11px] text-slateDark/60 leading-tight">Controls wave height. High amplitude carries more energy, making a louder sound.</p>
+            <input id="slider-amplitude" type="range" min="10" max="90" step="1" value="50" class="w-full h-2 rounded-lg cursor-pointer clay-slider">
+            <div class="flex justify-between text-[10px] font-bold text-slateDark/40 px-1">
+              <span>Quiet (Low)</span>
+              <span>Loud (High Energy)</span>
+            </div>
           </div>
         </div>
 
-        <!-- Volume / Amplitude Slider -->
-        <div class="flex flex-col gap-1.5">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-clay-600 uppercase tracking-wide">
-              Amplitude (Volume)
+        <!-- SYNTH LAB CONTROLS CONTAINER (Hidden by default) -->
+        <div id="synth-controls-panel" class="hidden flex flex-col gap-4 w-full">
+          <h3 class="text-base font-display font-bold text-deepBlue border-b border-sage-50 pb-2 flex items-center gap-2">
+            <svg class="w-5 h-5 text-clay-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122A3 3 0 00.01 16.122a1.5 1.5 0 011.083-1.083 4.5 4.5 0 008.437 0c.358.358.6 1.083 1.083 1.083z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l1.5 4 1.5-4m-6 0l1.5 4L9 9m-6 0l1.5 4L6 9" />
+            </svg>
+            Synth Sound Lab
+          </h3>
+
+          <!-- Waveform Selectors -->
+          <div class="flex flex-col gap-2">
+            <span class="text-xs font-extrabold text-deepBlue uppercase tracking-wide">
+              Wave Shape (Timber / Texture)
             </span>
-            <span id="amplitude-val-badge" class="bg-clay-50 text-clay-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-clay-100">Medium</span>
+            <p class="text-[11px] text-slateDark/60 leading-tight">Changes the shape of the sound wave. This modifies the "color" or texture of what you hear!</p>
+            <div class="grid grid-cols-4 gap-2 mt-1">
+              <button id="wave-sine-btn" class="flex flex-col items-center p-2 rounded-xl border-2 border-sage-500 bg-sage-50 text-sage-600 font-bold text-[10px] transition-all">
+                <svg class="w-8 h-8 mb-1" viewBox="0 0 40 20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5,10 Q12.5,0 20,10 T35,10" />
+                </svg>
+                Sine
+              </button>
+              <button id="wave-triangle-btn" class="flex flex-col items-center p-2 rounded-xl border border-sage-100 text-slateDark/60 hover:text-deepBlue font-bold text-[10px] transition-all">
+                <svg class="w-8 h-8 mb-1" viewBox="0 0 40 20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5,10 L12.5,3 L27.5,17 L35,10" />
+                </svg>
+                Triangle
+              </button>
+              <button id="wave-square-btn" class="flex flex-col items-center p-2 rounded-xl border border-sage-100 text-slateDark/60 hover:text-deepBlue font-bold text-[10px] transition-all">
+                <svg class="w-8 h-8 mb-1" viewBox="0 0 40 20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5,10 L5,3 L20,3 L20,17 L35,17 L35,10" />
+                </svg>
+                Square
+              </button>
+              <button id="wave-sawtooth-btn" class="flex flex-col items-center p-2 rounded-xl border border-sage-100 text-slateDark/60 hover:text-deepBlue font-bold text-[10px] transition-all">
+                <svg class="w-8 h-8 mb-1" viewBox="0 0 40 20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5,17 L20,3 L20,17 L35,3" />
+                </svg>
+                Sawtooth
+              </button>
+            </div>
           </div>
-          <p class="text-[11px] text-slateDark/60 leading-tight">Controls wave height. High amplitude carries more energy, making a louder sound.</p>
-          <input id="slider-amplitude" type="range" min="10" max="90" step="1" value="50" class="w-full h-2 rounded-lg cursor-pointer clay-slider">
-          <div class="flex justify-between text-[10px] font-bold text-slateDark/40 px-1">
-            <span>Quiet (Low)</span>
-            <span>Loud (High Energy)</span>
+
+          <!-- Tone Filter Slider -->
+          <div class="flex flex-col gap-1.5 border-t border-sage-50 pt-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-extrabold text-clay-500 uppercase tracking-wide">
+                Tone Sweeper (Filter)
+              </span>
+              <span id="filter-val-badge" class="bg-clay-50 text-clay-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-clay-100">Bright</span>
+            </div>
+            <p class="text-[11px] text-slateDark/60 leading-tight">Shaves off pointy energy spikes. High sweep sounds bright; low sweep sounds warm and muffled.</p>
+            <input id="slider-filter" type="range" min="150" max="2500" step="10" value="2500" class="w-full h-2 rounded-lg cursor-pointer clay-slider">
+            <div class="flex justify-between text-[10px] font-bold text-slateDark/40 px-1">
+              <span>Warm (Muffled)</span>
+              <span>Bright (Sharp)</span>
+            </div>
+          </div>
+
+          <!-- Wiggle Machine (LFO) -->
+          <div class="flex flex-col gap-1.5 border-t border-sage-50 pt-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-extrabold text-deepBlue uppercase tracking-wide">
+                Wiggle Machine (Pitch Vibrato)
+              </span>
+              <span id="lfo-val-badge" class="bg-blue-50 text-deepBlue font-bold text-[11px] px-2 py-0.5 rounded-md border border-blue-100">Off</span>
+            </div>
+            <p class="text-[11px] text-slateDark/60 leading-tight">Sends a slow secondary wave to bounce the frequency up and down automatically!</p>
+            
+            <div class="grid grid-cols-2 gap-3 mt-1">
+              <div>
+                <label class="text-[10px] font-bold text-slateDark/60 uppercase">Wiggle Speed</label>
+                <input id="slider-lfo-speed" type="range" min="1" max="15" step="0.5" value="5" class="w-full h-1.5 rounded-lg cursor-pointer">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-slateDark/60 uppercase">Wiggle Strength</label>
+                <input id="slider-lfo-depth" type="range" min="0" max="150" step="5" value="0" class="w-full h-1.5 rounded-lg cursor-pointer">
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Wave Movement Speed (Play/Pause) -->
-        <div class="border-t border-sage-50 pt-3 flex flex-col gap-2">
+        <div class="border-t border-sage-50 pt-3 mt-auto flex flex-col gap-2">
           <div class="flex justify-between items-center">
             <span class="text-[10px] font-bold text-slateDark/70 uppercase">Wave Speed / Freeze Time:</span>
             <button id="freeze-btn" class="bg-sage-100 hover:bg-sage-200 text-sage-600 font-bold text-[11px] px-2.5 py-0.5 rounded-full border border-sage-200 transition-all">
@@ -182,7 +279,7 @@
 
         <div id="mission-card" class="bg-cream/70 rounded-xl p-3.5 border border-sage-100 transition-all duration-300">
           <div class="flex justify-between items-start mb-1.5">
-            <span class="text-[9px] uppercase tracking-wider font-extrabold text-sage-500 bg-white px-2 py-0.5 rounded-full shadow-sm">Mission <span id="mission-num">1</span> of 4</span>
+            <span class="text-[9px] uppercase tracking-wider font-extrabold text-sage-500 bg-white px-2 py-0.5 rounded-full shadow-sm">Mission <span id="mission-num">1</span> of 6</span>
             <span id="mission-status" class="text-[10px] font-bold text-slateDark/40">Incomplete</span>
           </div>
           <h4 id="mission-title" class="font-display font-semibold text-deepBlue text-sm mb-1">Make a Quiet Whisper!</h4>
@@ -223,8 +320,8 @@
         </div>
         
         <!-- Canvas Container -->
-        <div class="bg-cream/40 rounded-xl border border-sage-50 relative flex items-center justify-center p-1 min-h-[160px]">
-          <canvas id="transverse-canvas" class="w-full h-[160px] block cursor-pointer"></canvas>
+        <div class="bg-cream/40 rounded-xl border border-sage-50 relative flex items-center justify-center p-1 min-h-[180px]">
+          <canvas id="transverse-canvas" class="w-full h-[180px] block cursor-pointer"></canvas>
           
           <!-- Wave diagram overlay markers -->
           <div class="absolute inset-x-4 top-1/2 -translate-y-1/2 border-t border-dashed border-slateDark/15 pointer-events-none"></div>
@@ -255,8 +352,8 @@
         </div>
 
         <!-- Canvas Container -->
-        <div class="bg-cream/40 rounded-xl border border-sage-50 relative flex items-center justify-center p-1 min-h-[120px]">
-          <canvas id="longitudinal-canvas" class="w-full h-[120px] block"></canvas>
+        <div class="bg-cream/40 rounded-xl border border-sage-50 relative flex items-center justify-center p-1 min-h-[140px]">
+          <canvas id="longitudinal-canvas" class="w-full h-[140px] block"></canvas>
         </div>
 
         <div class="mt-2.5 grid grid-cols-2 gap-3 text-[11px] text-slateDark/70">
@@ -287,8 +384,8 @@
         <p class="text-[11px] text-sage-50/80 leading-relaxed">When waves are packed closely together (short wavelength), they wiggle past your ears incredibly fast. Your brain hears this high frequency as a squeak!</p>
       </div>
       <div>
-        <h4 class="font-display font-semibold text-base text-amber-200 mb-0.5">Communication Tool</h4>
-        <p class="text-[11px] text-sage-50/80 leading-relaxed">Humans, dolphins, and forest birds change wave frequencies and amplitude sizes to send specific safety warnings, greetings, and secrets.</p>
+        <h4 class="font-display font-semibold text-base text-amber-200 mb-0.5">Synth Wave Shapes</h4>
+        <p class="text-[11px] text-sage-50/80 leading-relaxed">Analog synthesizers combine wave shapes to make distinct sounds. Spiky saw waves imitate brass trumpets; blocky square waves sound like retro chiptunes!</p>
       </div>
     </div>
   </section>
@@ -307,23 +404,31 @@
   <!-- Footer -->
   <footer class="bg-white border-t border-sage-100 py-3 px-6 text-center text-[10px] text-slateDark/40">
     <div class="max-w-7xl mx-auto">
-      Designed for 4th Grade Science Curriculum • Classroom Companion Web Application
+      Designed for 4th Grade Science Curriculum • Synthesizer &amp; Acoustics Science
     </div>
   </footer>
 
   <!-- App Code -->
   <script>
     // State Variables
+    let currentMode = 'explorer'; // 'explorer' or 'synth'
     let frequency = 440; // in Hz
     let amplitude = 50;  // normalized value
     let waveSpeed = 0.05; // speed multiplier
     let isFrozen = false;
     let phase = 0;
 
+    // Advanced Synthesizer States
+    let synthWaveform = 'sine'; // sine, triangle, square, sawtooth
+    let filterCutoff = 2500; // in Hz
+    let lfoSpeed = 5; // LFO frequency in Hz
+    let lfoDepth = 0; // LFO peak frequency offset
+
     // Web Audio Variables
     let audioCtx = null;
     let oscillator = null;
     let gainNode = null;
+    let filterNode = null;
     let isSoundPlaying = false;
 
     // Mission Engine Setup
@@ -331,32 +436,58 @@
     const missions = [
       {
         title: "Make a Quiet Rumble!",
-        desc: "Adjust the controls to create a very low-pitched, deep sound that is also quiet. (Low frequency & Low amplitude)",
-        check: (f, a) => f <= 250 && a <= 25
+        desc: "Adjust the controls to create a very low-pitched, deep sound that is also quiet. (Low frequency and Low amplitude)",
+        check: (f, a, w, filt, lfoS, lfoD) => f <= 250 && a <= 25
       },
       {
         title: "Create a Piercing Whistle!",
-        desc: "Make a high-pitched squeaking wave that is loud. (High frequency & High amplitude)",
-        check: (f, a) => f >= 750 && a >= 70
+        desc: "Make a high-pitched squeaking wave that is loud. (High frequency and High amplitude)",
+        check: (f, a, w, filt, lfoS, lfoD) => f >= 750 && a >= 70
       },
       {
         title: "The Quiet Squeak",
         desc: "Adjust the controls to make a highly compressed, close-together wave (High Frequency) that is barely tall at all (Low Amplitude).",
-        check: (f, a) => f >= 700 && a <= 25
+        check: (f, a, w, filt, lfoS, lfoD) => f >= 700 && a <= 25
       },
       {
         title: "The Balanced Middle Wave",
         desc: "Center both values perfectly to create a neutral wave like a normal talking voice. (Frequency between 400-600, Amplitude between 40-60)",
-        check: (f, a) => f >= 400 && f <= 600 && a >= 40 && a <= 60
+        check: (f, a, w, filt, lfoS, lfoD) => f >= 400 && f <= 600 && a >= 40 && a <= 60
+      },
+      {
+        title: "The Muffled Video Game Chime",
+        desc: "Enable Synth Lab. Switch to a SQUARE wave shape, turn Amplitude above 50, and slide the Tone Sweeper filter below 500 to make a warm retro tone.",
+        check: (f, a, w, filt, lfoS, lfoD) => currentMode === 'synth' && w === 'square' && a >= 50 && filt <= 500
+      },
+      {
+        title: "The Bouncing Alarm Siren",
+        desc: "Enable Synth Lab. Turn up the Wiggle Machine Strength above 100 and set the main frequency between 400-600 to hear the automatic pitch vibrato bend up and down.",
+        check: (f, a, w, filt, lfoS, lfoD) => currentMode === 'synth' && lfoD >= 100 && f >= 400 && f <= 600
       }
     ];
 
     // DOM Elements
+    const modeExplorerBtn = document.getElementById('mode-explorer-btn');
+    const modeSynthBtn = document.getElementById('mode-synth-btn');
+    const explorerControlsPanel = document.getElementById('explorer-controls-panel');
+    const synthControlsPanel = document.getElementById('synth-controls-panel');
+
     const sliderFrequency = document.getElementById('slider-frequency');
     const sliderAmplitude = document.getElementById('slider-amplitude');
     const sliderSpeed = document.getElementById('slider-speed');
     const frequencyBadge = document.getElementById('frequency-val-badge');
     const amplitudeBadge = document.getElementById('amplitude-val-badge');
+
+    // Advanced synth DOM elements
+    const waveSineBtn = document.getElementById('wave-sine-btn');
+    const waveTriangleBtn = document.getElementById('wave-triangle-btn');
+    const waveSquareBtn = document.getElementById('wave-square-btn');
+    const waveSawtoothBtn = document.getElementById('wave-sawtooth-btn');
+    const sliderFilter = document.getElementById('slider-filter');
+    const filterValBadge = document.getElementById('filter-val-badge');
+    const sliderLfoSpeed = document.getElementById('slider-lfo-speed');
+    const sliderLfoDepth = document.getElementById('slider-lfo-depth');
+    const lfoValBadge = document.getElementById('lfo-val-badge');
     
     const audioToggleBtn = document.getElementById('audio-toggle-btn');
     const audioIconMuted = document.getElementById('audio-icon-muted');
@@ -386,39 +517,75 @@
     const longitudinalCanvas = document.getElementById('longitudinal-canvas');
     const longitudinalCtx = longitudinalCanvas.getContext('2d');
 
+    // Handle explorer vs synth mode toggle
+    modeExplorerBtn.addEventListener('click', () => {
+      currentMode = 'explorer';
+      modeExplorerBtn.classList.add('bg-sage-500', 'text-white');
+      modeExplorerBtn.classList.remove('text-slateDark/60');
+      modeSynthBtn.classList.remove('bg-sage-500', 'text-white');
+      modeSynthBtn.classList.add('text-slateDark/60');
+
+      explorerControlsPanel.classList.remove('hidden');
+      synthControlsPanel.classList.add('hidden');
+
+      // Reset synth specifics back to neutral defaults for standard hearing
+      if (audioCtx) {
+        synthWaveform = 'sine';
+        oscillator.type = 'sine';
+        filterNode.frequency.setValueAtTime(2500, audioCtx.currentTime);
+      }
+      checkMissionProgress();
+    });
+
+    modeSynthBtn.addEventListener('click', () => {
+      currentMode = 'synth';
+      modeSynthBtn.classList.add('bg-sage-500', 'text-white');
+      modeSynthBtn.classList.remove('text-slateDark/60');
+      modeExplorerBtn.classList.remove('bg-sage-500', 'text-white');
+      modeExplorerBtn.classList.add('text-slateDark/60');
+
+      synthControlsPanel.classList.remove('hidden');
+      explorerControlsPanel.classList.add('hidden');
+
+      // Match values
+      updateSynthState();
+      checkMissionProgress();
+    });
+
     // Make Canvas responsive
     function resizeCanvases() {
-      // Set display layout sizes scaled to resolution
       transverseCanvas.width = transverseCanvas.parentElement.clientWidth * window.devicePixelRatio;
-      transverseCanvas.height = 160 * window.devicePixelRatio;
+      transverseCanvas.height = 180 * window.devicePixelRatio;
       longitudinalCanvas.width = longitudinalCanvas.parentElement.clientWidth * window.devicePixelRatio;
-      longitudinalCanvas.height = 120 * window.devicePixelRatio;
+      longitudinalCanvas.height = 140 * window.devicePixelRatio;
 
-      // Scale contexts appropriately
       transverseCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
       longitudinalCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
     }
     
     window.addEventListener('resize', resizeCanvases);
-    // Call on load once containers are rendered
     setTimeout(resizeCanvases, 50);
 
-    // Audio Initialization & Handling
+    // Audio Initialization & Web Audio Setup
     function initAudio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         oscillator = audioCtx.createOscillator();
+        filterNode = audioCtx.createBiquadFilter();
         gainNode = audioCtx.createGain();
 
-        oscillator.type = 'sine';
-        // Connect nodes
-        oscillator.connect(gainNode);
+        // Chain oscillator -> lowpass filter -> output volume -> master speakers
+        oscillator.type = synthWaveform;
+        filterNode.type = 'lowpass';
+        filterNode.frequency.value = filterCutoff;
+
+        oscillator.connect(filterNode);
+        filterNode.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         
-        // Match initial slider state
+        // Initial parameters
         oscillator.frequency.value = frequency;
-        // Map 10-90 scale into safe Web Audio volumes (0 to 0.15) to keep it soft
-        gainNode.gain.value = (amplitude / 100) * 0.15; 
+        gainNode.gain.value = (amplitude / 100) * 0.12; 
 
         oscillator.start();
       }
@@ -426,7 +593,6 @@
 
     function toggleAudio() {
       if (!isSoundPlaying) {
-        // Play
         if (!audioCtx) {
           initAudio();
         }
@@ -441,10 +607,8 @@
         audioToggleBtn.classList.remove('bg-sage-100', 'text-sage-600');
         audioToggleBtn.classList.add('bg-sage-500', 'text-white', 'shadow-md');
         
-        // Dynamically update audio parameters to match current slider settings
         updateAudioParams();
       } else {
-        // Pause
         if (audioCtx && audioCtx.state === 'running') {
           audioCtx.suspend();
         }
@@ -459,9 +623,15 @@
 
     function updateAudioParams() {
       if (audioCtx && isSoundPlaying) {
-        // Ramp values smoothly to avoid digital pops/clicks
-        oscillator.frequency.setTargetAtTime(frequency, audioCtx.currentTime, 0.05);
+        // Frequency is animated in real-time if LFO (Wiggle Machine) is active
+        if (lfoDepth === 0) {
+          oscillator.frequency.setTargetAtTime(frequency, audioCtx.currentTime, 0.05);
+        }
         gainNode.gain.setTargetAtTime((amplitude / 100) * 0.12, audioCtx.currentTime, 0.05);
+        
+        // Match Synth settings
+        oscillator.type = synthWaveform;
+        filterNode.frequency.setTargetAtTime(filterCutoff, audioCtx.currentTime, 0.05);
       }
     }
 
@@ -478,7 +648,67 @@
       customAlert.classList.add('hidden');
     });
 
-    // Label Updaters (for text feedback to kids)
+    // Helper functions to change synth wave shapes
+    function selectWaveform(type, activeBtn) {
+      synthWaveform = type;
+      
+      // Clean up classes
+      const buttons = [waveSineBtn, waveTriangleBtn, waveSquareBtn, waveSawtoothBtn];
+      buttons.forEach(btn => {
+        btn.classList.remove('border-sage-500', 'bg-sage-50', 'text-sage-600', 'border-2');
+        btn.classList.add('border-sage-100', 'text-slateDark/60');
+      });
+
+      // Highlight active
+      activeBtn.classList.add('border-sage-500', 'bg-sage-50', 'text-sage-600', 'border-2');
+      activeBtn.classList.remove('border-sage-100', 'text-slateDark/60');
+
+      updateAudioParams();
+      checkMissionProgress();
+    }
+
+    waveSineBtn.addEventListener('click', () => selectWaveform('sine', waveSineBtn));
+    waveTriangleBtn.addEventListener('click', () => selectWaveform('triangle', waveTriangleBtn));
+    waveSquareBtn.addEventListener('click', () => selectWaveform('square', waveSquareBtn));
+    waveSawtoothBtn.addEventListener('click', () => selectWaveform('sawtooth', waveSawtoothBtn));
+
+    // Label and Synth update functions
+    function updateSynthState() {
+      filterCutoff = parseInt(sliderFilter.value);
+      lfoSpeed = parseFloat(sliderLfoSpeed.value);
+      lfoDepth = parseInt(sliderLfoDepth.value);
+
+      // Label values
+      if (filterCutoff < 600) {
+        filterValBadge.textContent = "Muffled / Warm";
+        filterValBadge.className = "bg-amber-50 text-amber-700 font-bold text-[11px] px-2 py-0.5 rounded-md border border-amber-100";
+      } else if (filterCutoff > 1800) {
+        filterValBadge.textContent = "Full Brightness";
+        filterValBadge.className = "bg-clay-50 text-clay-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-clay-100";
+      } else {
+        filterValBadge.textContent = "Mid Tone";
+        filterValBadge.className = "bg-sage-50 text-sage-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-sage-100";
+      }
+
+      if (lfoDepth === 0) {
+        lfoValBadge.textContent = "Off";
+        lfoValBadge.className = "bg-gray-100 text-slateDark/50 font-bold text-[11px] px-2 py-0.5 rounded-md";
+      } else if (lfoDepth > 90) {
+        lfoValBadge.textContent = "Wild Wiggle!";
+        lfoValBadge.className = "bg-rose-50 text-rose-600 font-bold text-[11px] px-2 py-0.5 rounded-md border border-rose-100";
+      } else {
+        lfoValBadge.textContent = "Gentle sway";
+        lfoValBadge.className = "bg-blue-50 text-deepBlue font-bold text-[11px] px-2 py-0.5 rounded-md border border-blue-100";
+      }
+
+      updateAudioParams();
+      checkMissionProgress();
+    }
+
+    sliderFilter.addEventListener('input', updateSynthState);
+    sliderLfoSpeed.addEventListener('input', updateSynthState);
+    sliderLfoDepth.addEventListener('input', updateSynthState);
+
     function updateLabels() {
       // Frequency text
       if (frequency < 350) {
@@ -567,15 +797,14 @@
 
     function checkMissionProgress() {
       const activeMission = missions[currentMissionIdx];
-      if (activeMission.check(frequency, amplitude)) {
-        if (missionStatus.textContent !== "Success! 🎉") {
-          missionStatus.textContent = "Success! 🎉";
+      if (activeMission.check(frequency, amplitude, synthWaveform, filterCutoff, lfoSpeed, lfoDepth)) {
+        if (missionStatus.textContent !== "Success! Target Met") {
+          missionStatus.textContent = "Success! Target Met";
           missionStatus.className = "text-[10px] font-extrabold text-white bg-sage-500 px-2.5 py-0.5 rounded-full shadow-sm";
           missionSuccessMsg.classList.remove('hidden');
           
-          // Trigger cute educational feedback
           setTimeout(() => {
-            showAlert("Mission Complete!", `You created: ${activeMission.title} with a frequency of ${frequency}Hz and amplitude of ${amplitude}. Perfect science skills!`);
+            showAlert("Mission Complete!", `You matched the physical properties! Target: "${activeMission.title}" has been successfully created.`);
           }, 300);
         }
       }
@@ -595,7 +824,7 @@
         setupMission(currentMissionIdx);
         checkMissionProgress();
       } else {
-        showAlert("All Done!", "Amazing work, Science Officer! You completed all the wave training missions. Keep adjusting the sliders to see what other waveforms you can generate.");
+        showAlert("Superstar Scientist!", "You successfully completed all standard and advanced sound wave challenges! Keep playing with the Synth dials to discover wild shapes.");
       }
     });
 
@@ -604,16 +833,30 @@
     const molecules = [];
     
     function initMolecules() {
-      molecules.length = 0; // Clear
-      // Fill canvas grid evenly with air molecule nodes at rest positions
+      molecules.length = 0;
       for (let i = 0; i < moleculeCount; i++) {
         molecules.push({
-          xRest: Math.random() * 640, // standard width scale
-          y: 20 + Math.random() * 80  // height spread
+          xRest: Math.random() * 640, 
+          y: 20 + Math.random() * 80  
         });
       }
     }
     initMolecules();
+
+    // Helper functions to calculate raw geometric values
+    function getWaveY(angle, type) {
+      switch (type) {
+        case 'triangle':
+          return Math.asin(Math.sin(angle)) * (2 / Math.PI);
+        case 'square':
+          return Math.sign(Math.sin(angle));
+        case 'sawtooth':
+          return ((angle % (2 * Math.PI)) / Math.PI) - 1;
+        case 'sine':
+        default:
+          return Math.sin(angle);
+      }
+    }
 
     // MAIN ANIMATION LOOP
     function animate() {
@@ -624,6 +867,18 @@
         phase += waveSpeed;
       }
 
+      // Calculate real-time automatic frequency wiggling (LFO Vibrato)
+      let activeFreq = frequency;
+      if (lfoDepth > 0) {
+        const lfoOsc = Math.sin(Date.now() * 0.001 * lfoSpeed * Math.PI * 2) * lfoDepth;
+        activeFreq = Math.max(100, Math.min(1000, frequency + lfoOsc));
+        
+        // Push actual update to audio engine dynamically
+        if (audioCtx && isSoundPlaying) {
+          oscillator.frequency.setValueAtTime(activeFreq, audioCtx.currentTime);
+        }
+      }
+
       // Get pixel dimensions adjusted dynamically
       const twWidth = transverseCanvas.width / window.devicePixelRatio;
       const twHeight = transverseCanvas.height / window.devicePixelRatio;
@@ -631,7 +886,7 @@
       const lwWidth = longitudinalCanvas.width / window.devicePixelRatio;
       const lwHeight = longitudinalCanvas.height / window.devicePixelRatio;
 
-      // 1. DRAW TRANSVERSE WAVE (SINE WAVE)
+      // 1. DRAW TRANSVERSE WAVE
       transverseCtx.clearRect(0, 0, twWidth, twHeight);
 
       // Light background grid
@@ -647,42 +902,50 @@
 
       // Main Wave Path
       transverseCtx.beginPath();
-      // Wave aesthetics
       transverseCtx.lineWidth = 4;
       transverseCtx.lineCap = 'round';
       transverseCtx.lineJoin = 'round';
       
-      // Calculate color based on frequency
-      // High frequency = bright aqua blue, Low frequency = soft deep sage
-      const hue = Math.max(120, Math.min(220, 220 - ((frequency - 100) / 900) * 100));
+      const hue = Math.max(120, Math.min(220, 220 - ((activeFreq - 100) / 900) * 100));
       transverseCtx.strokeStyle = `hsl(${hue}, 45%, 50%)`;
 
-      // Draw the sine wave
+      // Filter Low Pass visual smoothing factor
+      // Max cutoff 2500 corresponds to 1.0 (no smoothing). Min cutoff 150 corresponds to ~0.03 (very smooth)
+      const smoothingAlpha = Math.max(0.04, Math.min(1, (filterCutoff / 2500) ** 1.8));
+
+      // Draw and smooth the shape mathematically
+      let lastY = twHeight / 2;
       for (let x = 0; x < twWidth; x++) {
-        // Scale frequency to visually beautiful wavelength spacing
-        const visualFreq = (frequency / 1000) * 0.08; 
-        // Peak offset mapped beautifully to responsive bounds
+        const visualFreq = (activeFreq / 1000) * 0.08; 
         const visualAmp = (amplitude / 100) * (twHeight * 0.4); 
         
-        const y = twHeight / 2 + Math.sin(x * visualFreq - phase) * visualAmp;
+        const angle = x * visualFreq - phase;
+        
+        // Get geometric base position
+        const rawOffset = getWaveY(angle, synthWaveform) * visualAmp;
+        const targetY = twHeight / 2 + rawOffset;
+
+        // Apply visual one-pole smoothing filter to simulate filter cutoff on spikes!
+        const currentY = lastY + smoothingAlpha * (targetY - lastY);
+        lastY = currentY;
 
         if (x === 0) {
-          transverseCtx.moveTo(x, y);
+          transverseCtx.moveTo(x, currentY);
         } else {
-          transverseCtx.lineTo(x, y);
+          transverseCtx.lineTo(x, currentY);
         }
       }
       transverseCtx.stroke();
 
-      // Draw wave crest highlight dots to help kids see movement direction
-      const cycleSize = (frequency / 1000) * 0.08;
-      const cycleStep = Math.PI * 2;
-      for (let x = 20; x < twWidth; x += 100) {
-        const visualAmp = (amplitude / 100) * (twHeight * 0.4);
-        const y = twHeight / 2 + Math.sin(x * cycleSize - phase) * visualAmp;
+      // Draw moving wave tracking nodes on the curves
+      const cycleSize = (activeFreq / 1000) * 0.08;
+      for (let x = 30; x < twWidth; x += 110) {
+        const angle = x * cycleSize - phase;
+        const rawOffset = getWaveY(angle, synthWaveform) * ((amplitude / 100) * (twHeight * 0.4));
+        const targetY = twHeight / 2 + rawOffset;
         
         transverseCtx.beginPath();
-        transverseCtx.arc(x, y, 5, 0, Math.PI * 2);
+        transverseCtx.arc(x, targetY, 5, 0, Math.PI * 2);
         transverseCtx.fillStyle = '#E07A5F';
         transverseCtx.fill();
         transverseCtx.strokeStyle = '#fff';
@@ -695,35 +958,36 @@
       longitudinalCtx.clearRect(0, 0, lwWidth, lwHeight);
 
       // Molecule parameters
-      const visualFreqL = (frequency / 1000) * 0.08;
-      const visualAmpL = (amplitude / 100) * 28; // maximum horizontal displacement in pixels
+      const visualFreqL = (activeFreq / 1000) * 0.08;
+      const visualAmpL = (amplitude / 100) * 28;
 
-      // Air Grid Visual Layer
+      // Draw molecules
       molecules.forEach((m) => {
-        // Redo scaled position to handle scaling changes fluidly
         const relativeX = (m.xRest / 640) * lwWidth;
         const relativeY = (m.y / 120) * lwHeight;
 
-        // Sound compression happens horizontally
-        const displacement = Math.sin(relativeX * visualFreqL - phase) * visualAmpL;
+        // Sound compression happens horizontally using the custom wave shape too!
+        const angle = relativeX * visualFreqL - phase;
+        
+        // Simulating the wave shape in the molecule clustering
+        const rawDisplacement = getWaveY(angle, synthWaveform) * visualAmpL;
+        const displacement = rawDisplacement * smoothingAlpha; // filter affects particle spacing too!
         const currentX = relativeX + displacement;
 
-        // Draw molecules as lovely organic dots
         longitudinalCtx.beginPath();
         longitudinalCtx.arc(currentX, relativeY, 3.5, 0, Math.PI * 2);
 
-        // Color coding showing high pressure (compression) regions as darker/warmer
+        // Color code compression zones
         const waveStage = Math.cos(relativeX * visualFreqL - phase);
         if (waveStage > 0.7) {
-          longitudinalCtx.fillStyle = 'rgba(224, 122, 95, 0.85)'; // terracotta compression
+          longitudinalCtx.fillStyle = 'rgba(224, 122, 95, 0.85)'; // compression
         } else {
-          longitudinalCtx.fillStyle = 'rgba(61, 90, 128, 0.45)'; // soft deep blue resting
+          longitudinalCtx.fillStyle = 'rgba(61, 90, 128, 0.45)'; // rarefaction
         }
-        
         longitudinalCtx.fill();
       });
 
-      // Draw a vertical listener head indicator on the right edge to show sound "hitting" the ear
+      // Draw human ear receiving waves
       longitudinalCtx.beginPath();
       longitudinalCtx.arc(lwWidth - 25, lwHeight / 2, 16, 0, Math.PI * 2);
       longitudinalCtx.fillStyle = '#F4F7F5';
@@ -732,7 +996,7 @@
       longitudinalCtx.fill();
       longitudinalCtx.stroke();
 
-      // Soft sound wave indicator lines reflecting the ear receiving energy
+      // Soft pulse animation on ear
       const earPulse = Math.sin(phase * 1.5) * (amplitude / 100) * 4;
       if (earPulse > 1) {
         longitudinalCtx.beginPath();
@@ -747,6 +1011,7 @@
     window.onload = function() {
       setupMission(0);
       updateLabels();
+      updateSynthState();
       animate();
     };
 
